@@ -20,9 +20,6 @@ import java.util.*;
  * @ Author : lai
  * @ Date   : created in  2020/4/21 14:08
  * @ Description :  增量和全量实现模板
- * 约定
- * 主键都是id
- * 主键只有一个
  */
 @Slf4j
 public abstract class AbstractESStorageSupport implements EsFullStorageSupport, EsIncStorageSupport<Dml> {

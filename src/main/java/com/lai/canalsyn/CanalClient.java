@@ -2,6 +2,7 @@ package com.lai.canalsyn;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -15,12 +16,16 @@ import javax.annotation.Resource;
  */
 @Component
 @Slf4j
-public class CanalClient {
+public class CanalClient implements CommandLineRunner {
     @Resource
     private AbstractCanalClientWork clientWork;
+    @PreDestroy
+    public synchronized void destroy() {
+        System.out.println("canl客户端线程销毁！！");
+    }
 
-    @PostConstruct
-    public synchronized void init() {
+    @Override
+    public void run(String... args) throws Exception {
         try {
             log.info("canl客户端线程启动!!");
             //开启工作线程
@@ -30,10 +35,4 @@ public class CanalClient {
             log.error("goes wrong when starting up the canal client ", e);
         }
     }
-
-    @PreDestroy
-    public synchronized void destroy() {
-        System.out.println("canl客户端线程销毁！！");
-    }
-
 }

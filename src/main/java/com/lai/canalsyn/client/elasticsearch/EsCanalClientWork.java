@@ -20,7 +20,6 @@ import java.util.List;
  * @ Description :  基于canal实现ES实时数据同步
  */
 @Slf4j
-@Component
 public class EsCanalClientWork extends AbstractCanalClientWork {
     //默认配置
     private static final int ES_BATCH_SIZE = 50;
@@ -29,16 +28,12 @@ public class EsCanalClientWork extends AbstractCanalClientWork {
     @Resource
     ESIncStorageManager esIncStorageManager;
 
-    private EsCanalClientConfig esCanalClientConfig;
-
-
     /**
      * 增量的前置处理,在这里就是全量同步
      */
     @Override
     public void preProceed() {
         super.preProceed();
-        buildEsSynConfig();
         try {
             esEtlManager.doFullStorage();
         } catch (IOException e) {
@@ -47,15 +42,6 @@ public class EsCanalClientWork extends AbstractCanalClientWork {
         }
     }
 
-    /**
-     * 配置构建
-     */
-    public void buildEsSynConfig() {
-        CanalClientConfig canalClientConfig = getCanalClientConfig();
-        EsCanalClientConfig esCanalClientConfig = new EsCanalClientConfig();
-        this.esCanalClientConfig = esCanalClientConfig;
-
-    }
 
     @Override
     protected void internalWriteOut(List<Dml> dmls) {

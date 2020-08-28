@@ -82,8 +82,6 @@ public abstract class AbstractCanalClientWork {
             // 重试次数-1代表异常时一直阻塞重试
             retry = Integer.MAX_VALUE;
         }
-        // long timeout = canalClientConfig.getTimeout() == null ? 300000 :
-        // canalClientConfig.getTimeout(); // 默认超时5分钟
         Integer batchSize = canalClientConfig.getBatchSize();
         if (batchSize == null) {
 
@@ -94,7 +92,7 @@ public abstract class AbstractCanalClientWork {
                 connector.connect();
                 log.info("=============> Start to subscribe destination: {} <=============", this.canalClientConfig.getDestination());
 
-                //这里要和mysql的订阅最好一致不然有bug
+                //这里要和mysql的订阅最好一致不然有bug  // 指定filter，格式 {database}.{table}，这里不做过滤，过滤操作留给用户
                 connector.subscribe(".*\\..*");
                 log.info("=============> Subscribe destination: {} succeed <=============", this.canalClientConfig.getDestination());
                 while (running) {
