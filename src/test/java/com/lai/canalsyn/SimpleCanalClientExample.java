@@ -2,9 +2,11 @@ package com.lai.canalsyn;
 
 import com.alibaba.otter.canal.client.CanalConnector;
 import com.alibaba.otter.canal.client.CanalConnectors;
+import com.alibaba.otter.canal.common.utils.AddressUtils;
 import com.alibaba.otter.canal.protocol.CanalEntry.*;
 import com.alibaba.otter.canal.protocol.Message;
 
+import java.net.InetSocketAddress;
 import java.util.List;
 
 /**
@@ -15,9 +17,9 @@ public class SimpleCanalClientExample {
 
     public static void main(String args[]) {
         // 创建链接
-/*        CanalConnector connector = CanalConnectors.newSingleConnector(new InetSocketAddress(AddressUtils.getHostIp(),
-                11111), "example", "", "");*/
-        CanalConnector connector = CanalConnectors.newClusterConnector("localhost:2181", "example", "", "");
+        CanalConnector connector = CanalConnectors.newSingleConnector(new InetSocketAddress(AddressUtils.getHostIp(),
+                11111), "example", "", "");
+       /* CanalConnector connector = CanalConnectors.newClusterConnector("localhost:2181", "example", "", "");*/
         int batchSize = 1000;
         int emptyCount = 0;
         while (true) {

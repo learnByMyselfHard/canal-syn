@@ -3,6 +3,7 @@ package com.lai.canalsyn;
 
 import com.alibaba.otter.canal.client.CanalConnector;
 import com.alibaba.otter.canal.client.CanalConnectors;
+import com.alibaba.otter.canal.common.utils.AddressUtils;
 import com.alibaba.otter.canal.protocol.Message;
 import com.lai.canalsyn.config.CanalClientConfig;
 import com.lai.canalsyn.message.Dml;
@@ -11,6 +12,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Resource;
+import java.net.InetSocketAddress;
 import java.util.List;
 
 /**
@@ -34,9 +36,22 @@ public abstract class AbstractCanalClientWork {
 
     private final void init() {
         log.info("canal client init!!");
+        String destination = canalClientConfig.getDestination();
+        String username = canalClientConfig.getUsername();
+        String password = canalClientConfig.getPassword();
+        //连接方式
+        String canalServerHost = canalClientConfig.getCanalServerHost();
         String zookeeperHosts = canalClientConfig.getZookeeperHosts();
-        //canal链接
-        connector = CanalConnectors.newClusterConnector(canalClientConfig.getZookeeperHosts(), canalClientConfig.getDestination(), canalClientConfig.getUsername(), canalClientConfig.getPassword());
+        if (!zookeeperHosts.trim().isEmpty()) {
+            log.info("集群canal server");
+            connector = CanalConnectors.newClusterConnector(zookeeperHosts, destination, username, password);
+        }
+        log.info("单机canal server");
+        String[] split = canalServerHost.trim().split(":");
+        String ip = split[0];
+        int port = Integer.valueOf(split[1]);
+        connector = CanalConnectors.newSingleConnector(new InetSocketAddress(ip,
+                port), destination, username, password);
 
     }
 
@@ -166,8 +181,8 @@ public abstract class AbstractCanalClientWork {
 
     }
 
-    public final CanalClientConfig getCanalClientConfig(){
-        return  canalClientConfig;
+    public final CanalClientConfig getCanalClientConfig() {
+        return canalClientConfig;
     }
 
 

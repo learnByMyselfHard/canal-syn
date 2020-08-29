@@ -15,8 +15,6 @@ import java.util.concurrent.TimeUnit;
 public class Util {
 
     private static final Logger logger = LoggerFactory.getLogger(Util.class);
-
-
     public final static String timeZone;    // 当前时区
     private static DateTimeZone dateTimeZone;
 

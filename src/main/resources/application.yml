@@ -1,14 +1,14 @@
 
-##canalµÄ¿Í»§¶ËÅäÖÃ
+##canalï¿½Ä¿Í»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 canal:
   conf:
     batchSize: 2000
     syncBatchSize: 1000
     retries: 0
     timeout:
-    canalServerHost:
+    canalServerHost:  localhost:11111
     destination: example
-    zookeeperHosts: localhost:2181
+    zookeeperHosts:
     username:
     password:
 server:
