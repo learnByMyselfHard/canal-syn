@@ -34,31 +34,24 @@ public class DefaultCanalClientWork extends  AbstractCanalClientWork {
             if(!CollectionUtils.isEmpty(canalConsumers)){
                 for (CanalConsumer canalConsumer : canalConsumers) {
                     if (canalConsumer.support(dml)) {
-                        switch (type) {
-                            case "INSERT": {
-                                operateString = "插入操作";
-                                canalConsumer.insert(dml);
-                                break;
-                            }
-                            case "UPDATE": {
-                                operateString = "更新操作";
-                                canalConsumer.update(dml);
-                                break;
-                            }
-                            case "DELETE": {
-                                operateString = "删除操作";
-                                canalConsumer.delete(dml);
-                                break;
-                            }
-                            default: {
-                                log.info("不支持的操作[{}]", type);
-                            }
+                        if (type != null && type.equalsIgnoreCase("INSERT")) {
+                            operateString="插入操作";
+                            canalConsumer.insert( dml);
+                        } else if (type != null && type.equalsIgnoreCase("UPDATE")) {
+                            operateString="更新操作";
+                            canalConsumer.update(dml);
+                        } else if (type != null && type.equalsIgnoreCase("DELETE")) {
+                            operateString="删除操作";
+                            canalConsumer.delete( dml);
+                        }else {
+                            operateString="不支持操作: "+type;
                         }
-                        log.info(operateString);
+                        log.info("type:[{}]",operateString);
                         log.info(" message:[{}]", dml);
                     }
                 }
             }
         }
     }
+
 }
