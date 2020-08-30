@@ -109,6 +109,7 @@ public abstract class AbstractCanalClientWork {
 
                 //这里要和mysql的订阅最好一致不然有bug  // 指定filter，格式 {database}.{table}，这里不做过滤，过滤操作留给用户
                 connector.subscribe(".*\\..*");
+               // connector.subscribe();
                 log.info("=============> Subscribe destination: {} succeed <=============", this.canalClientConfig.getDestination());
                 while (running) {
 
